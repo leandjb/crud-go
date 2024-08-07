@@ -6,6 +6,7 @@ import (
 	"os"
 	"bufio"
 	"strconv"
+	"os/exec"
 )
 
 var reader *bufio.Reader
@@ -32,16 +33,26 @@ func modificarUsuario() {
 }
 
 func listarUsuarios() {
+	clearConsole()
 	fmt.Println("*** Lista de Usuarios ***")
+	
+	for id, user := range users{
+		fmt.Println(id, "-", user.username)
+	}
+
+	fmt.Println("\n")
 	
 }
 
 func crearUsuario() {
+	clearConsole()
 	fmt.Println("> Ingrese un valor para username:")
 	username := readLine()
+	username = strings.ToUpper(username)
 	
 	fmt.Println("> Ingrese un valor para email:")
 	email := readLine()
+	email = strings.ToLower(email)
 	
 	fmt.Println("> Ingrese un valor para edad: ")
 	age, err := strconv.Atoi(readLine())
@@ -66,6 +77,12 @@ func readLine() string {
 		option = strings.ToLower(option)
 		return strings.TrimSpace(option)
 	}
+}
+
+func clearConsole()  {
+	cmd := exec.Command("clear")
+	cmd.Stdout = os.Stdout
+	cmd.Run()
 }
 
 func main() {
